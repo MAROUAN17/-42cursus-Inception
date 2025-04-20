@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  nginx:
+    build: /requirements/nginx/.
+    container_name: nginx-container
+    ports:
+      - "8080:80"
+  wordpress:
+    build: /requirements/wordpress/.
+    container_name: wp-container
+    ports:
+      - "7000:70"
