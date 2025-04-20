@@ -2,12 +2,22 @@ version: "3.8"
 
 services:
   nginx:
-    build: /requirements/nginx/.
     container_name: nginx-container
+    build: ./requirements/nginx/.
     ports:
-      - "8080:80"
+      - "8080:443"
   wordpress:
-    build: /requirements/wordpress/.
     container_name: wp-container
+    build: ./requirements/wordpress/.
     ports:
-      - "7000:70"
+      - "9000:9000"
+    environment:
+      WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST}
+      WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
+      WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
+      WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
+  mariadb:
+    container_name: mariadb-container
+    build: ./requirements/mariadb/.
+    ports:
+      - "3306:3306"
