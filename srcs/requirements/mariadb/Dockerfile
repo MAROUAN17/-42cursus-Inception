@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM debian:bullseye
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 

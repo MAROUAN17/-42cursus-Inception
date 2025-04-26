@@ -1,9 +1,9 @@
-version: "3.8"
-
 services:
   nginx:
     container_name: nginx-container
     build: ./requirements/nginx/.
+    networks:
+      - my-network
     ports:
       - "8080:443"
   wordpress:
@@ -11,6 +11,10 @@ services:
     build: ./requirements/wordpress/.
     ports:
       - "9000:9000"
+    volumes:
+      - wp-data:/var/www/html/
+    networks:
+      - my-network
     environment:
       WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST}
       WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
@@ -21,3 +25,14 @@ services:
     build: ./requirements/mariadb/.
     ports:
       - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
+volumes:
+  db-data:
+  wp-data:

@@ -12,3 +12,5 @@ mysql -u root  <<-EOSQL
 EOSQL
 
 wait $!
+
+mysqld;

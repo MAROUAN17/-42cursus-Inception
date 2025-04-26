@@ -1,12 +1,17 @@
-FROM debian:buster
+FROM debian:bullseye
 
 RUN apt-get update && \
-    apt-get install -y nginx && \
+    apt-get install -y \
+    nginx \
+    openssl \
+    ca-certificates && \
     rm -rf /var/lib/apt/lists/*
 
+
+COPY ssl.sh /usr/local/bin/ssl.sh
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY ./index.html /usr/share/nginx/html/index.html
 
 EXPOSE 443
 
-CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["/usr/local/bin/ssl.sh"]
