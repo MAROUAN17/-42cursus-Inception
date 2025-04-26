@@ -4,7 +4,9 @@ WORKDIR /var/www/html
 
 RUN apt-get update && \
     apt-get install -y \
+    php7.4 \
     php-fpm \
+    php7.4-mysql \
     curl && \
     mkdir -p /run/php && \
     ln -s /usr/sbin/php-fpm7.4 /usr/sbin/php-fpm && \
@@ -19,7 +21,6 @@ RUN apt-get update && \
 
 RUN sed -i 's|^listen = .*|listen = 9000|' /etc/php/7.4/fpm/pool.d/www.conf
 
-
 EXPOSE 9000
 
-CMD ["php-fpm", "-F"]
+CMD php-fpm -F

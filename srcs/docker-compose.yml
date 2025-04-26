@@ -6,15 +6,18 @@ services:
       - my-network
     ports:
       - "8080:443"
+    volumes:
+      - wp-data:/var/www/html/
   wordpress:
     container_name: wp-container
     build: ./requirements/wordpress/.
+    networks:
+      - my-network
     ports:
       - "9000:9000"
     volumes:
       - wp-data:/var/www/html/
-    networks:
-      - my-network
+      - ./requirements/wordpress/wp-config.php:/var/www/html/wp-config.php
     environment:
       WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST}
       WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
@@ -27,6 +30,7 @@ services:
       - "3306:3306"
     volumes:
       - db-data:/var/lib/mysql
+      - ./requirements/mariadb/my.cnf:/etc/mysql/my.cnf
     networks:
       - my-network
 

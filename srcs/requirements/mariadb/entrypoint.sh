@@ -13,4 +13,8 @@ EOSQL
 
 wait $!
 
+
+rm /var/lib/mysql/ib_logfile0;
+rm /var/lib/mysql/ib_logfile1;
+
 mysqld;
