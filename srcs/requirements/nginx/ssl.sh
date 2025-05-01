@@ -26,6 +26,6 @@ openssl req -new -x509 -config /etc/ssl/openssl.cnf -nodes -days 365 -newkey rsa
     -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt;
 
 nginx -g 'daemon off;';
-ls /var/www;
+
 nginx -s reload;
 

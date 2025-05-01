@@ -1,14 +1,31 @@
 services:
-  nginx:
-    container_name: nginx-container
-    build: ./requirements/nginx/.
+  mariadb:
+    restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "--silent"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+    container_name: mariadb-container
+    build: ./requirements/mariadb/.
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
     networks:
       - my-network
-    ports:
-      - "8080:443"
-    volumes:
-      - wp-data:/var/www/html/
   wordpress:
+    restart: always
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "pgrep", "php-fpm"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
     container_name: wp-container
     build: ./requirements/wordpress/.
     networks:
@@ -17,26 +34,26 @@ services:
       - "9000:9000"
     volumes:
       - wp-data:/var/www/html/
-      - ./requirements/wordpress/wp-config.php:/var/www/html/wp-config.php
     environment:
       WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST}
       WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
       WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
       WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
-  mariadb:
-    container_name: mariadb-container
-    build: ./requirements/mariadb/.
-    ports:
-      - "3306:3306"
-    volumes:
-      - db-data:/var/lib/mysql
-      - ./requirements/mariadb/my.cnf:/etc/mysql/my.cnf
+  nginx:
+    restart: always
+    depends_on:
+      wordpress:
+        condition: service_healthy
+    container_name: nginx-container
+    build: ./requirements/nginx/.
     networks:
       - my-network
-
+    ports:
+      - "8080:443"
+    volumes:
+      - wp-data:/var/www/html/
 networks:
   my-network:
-    driver: bridge
 volumes:
   db-data:
   wp-data:

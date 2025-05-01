@@ -2,7 +2,7 @@
 
 mysqld_safe &
 
-sleep 10
+sleep 10;
 
 mysql -u root  <<-EOSQL
     CREATE DATABASE IF NOT EXISTS \`wp_db\`;
@@ -11,10 +11,8 @@ mysql -u root  <<-EOSQL
     FLUSH PRIVILEGES;
 EOSQL
 
-wait $!
+mysqladmin shutdown;
 
+mv ./50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 
-rm /var/lib/mysql/ib_logfile0;
-rm /var/lib/mysql/ib_logfile1;
-
-mysqld;
+exec mysqld;
