@@ -1,12 +1,6 @@
 services:
   mariadb:
     restart: always
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "--silent"]
-      interval: 10s
-      retries: 5
-      start_period: 30s
-      timeout: 10s
     container_name: mariadb-container
     build: ./requirements/mariadb/.
     ports:
@@ -18,14 +12,7 @@ services:
   wordpress:
     restart: always
     depends_on:
-      mariadb:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "pgrep", "php-fpm"]
-      interval: 10s
-      retries: 5
-      start_period: 30s
-      timeout: 10s
+      - mariadb
     container_name: wp-container
     build: ./requirements/wordpress/.
     networks:
@@ -42,8 +29,7 @@ services:
   nginx:
     restart: always
     depends_on:
-      wordpress:
-        condition: service_healthy
+      - wordpress
     container_name: nginx-container
     build: ./requirements/nginx/.
     networks:
