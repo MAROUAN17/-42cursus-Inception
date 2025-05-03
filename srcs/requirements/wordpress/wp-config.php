@@ -21,6 +21,13 @@
 define('WP_HOME', 'https://localhost:8080');
 define('WP_SITEURL', 'https://localhost:8080');
 
+// redis conf
+define( 'WP_REDIS_HOST', 'redis' );
+define( 'WP_REDIS_PORT', 6379 );
+define( 'WP_REDIS_DATABASE', 0 );
+
+
+
 // ** Database settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
 define( 'DB_NAME', 'wp_db' );
