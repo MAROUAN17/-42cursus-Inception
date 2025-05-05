@@ -55,6 +55,30 @@ services:
       - my-network
     ports:
       - "6379:6379"
+  ftp:
+    restart: always
+    depends_on:
+      - wordpress
+    container_name: ftp-container
+    build: ./requirements/bonus/ftp/.
+    networks:
+      - my-network
+    ports:
+      - "2100:21"
+    volumes:
+      - wp-data:/var/www/html
+  adminer:
+    restart: always
+    depends_on:
+      - wordpress
+    container_name: adminer-container
+    build: ./requirements/bonus/adminer/.
+    networks:
+      - my-network
+    ports:
+      - "8081:8080"
+    volumes:
+      - wp-data:/var/www/html
 networks:
   my-network:
 volumes:
