@@ -22,9 +22,9 @@ define('WP_HOME', 'https://localhost:8080');
 define('WP_SITEURL', 'https://localhost:8080');
 
 // redis conf
-define( 'WP_REDIS_HOST', 'redis' );
-define( 'WP_REDIS_PORT', 6379 );
-define( 'WP_REDIS_DATABASE', 0 );
+// define( 'WP_REDIS_HOST', 'redis' );
+// define( 'WP_REDIS_PORT', 6379 );
+// define( 'WP_REDIS_DATABASE', 0 );
 
 
 

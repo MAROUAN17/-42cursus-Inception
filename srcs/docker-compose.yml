@@ -5,6 +5,12 @@ services:
     build: ./requirements/mariadb/.
     ports:
       - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      start_period: 10s
+      interval: 10s
+      timeout: 5s
+      retries: 3
     volumes:
       - db-data:/var/lib/mysql
     networks:
@@ -12,7 +18,8 @@ services:
   wordpress:
     restart: always
     depends_on:
-      - mariadb
+      mariadb:
+        condition: service_healthy
     container_name: wp-container
     build: ./requirements/wordpress/.
     networks:

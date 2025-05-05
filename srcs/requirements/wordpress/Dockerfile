@@ -1,6 +1,6 @@
 FROM debian:bullseye
 
-COPY wp-config.php /var/www/html/wp-config.php
+# COPY wp-config.php /var/www/html/wp-config.php
 COPY wp.sh /usr/local/bin/wp.sh
 
 RUN apt-get update && \
@@ -14,9 +14,12 @@ RUN apt-get update && \
     chmod +x /usr/local/bin/wp.sh && \
     mkdir -p /run/php && \
     ln -s /usr/sbin/php-fpm7.4 /usr/sbin/php-fpm && \
-    curl -O https://wordpress.org/latest.tar.gz && \
-    tar -xzf latest.tar.gz && \
-    rm latest.tar.gz && \
+    # curl -O https://wordpress.org/latest.tar.gz && \
+    # tar -xzf latest.tar.gz && \
+    # rm latest.tar.gz && \
+    curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
+    chmod +x wp-cli.phar && \
+    mv wp-cli.phar /usr/local/bin/wp && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get clean
 

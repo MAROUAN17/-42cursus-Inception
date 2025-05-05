@@ -12,5 +12,7 @@ up:
 fclean:
 	cd srcs && docker-compose down --rmi all -v
 
+restart:
+	cd srcs && docker-compose restart
 
 .PHONY: build down up
