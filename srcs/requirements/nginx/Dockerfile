@@ -12,7 +12,6 @@ RUN apt-get update && \
 COPY ssl.sh /usr/local/bin/ssl.sh
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY default /etc/nginx/sites-available/default
-COPY ./index.html /usr/share/nginx/html/index.html
 
 EXPOSE 443
 

@@ -37,6 +37,7 @@ services:
     restart: always
     depends_on:
       - wordpress
+      - adminer
     container_name: nginx-container
     build: ./requirements/nginx/.
     networks:
@@ -75,10 +76,18 @@ services:
     build: ./requirements/bonus/adminer/.
     networks:
       - my-network
-    ports:
-      - "8081:8080"
     volumes:
       - wp-data:/var/www/html
+  website:
+    restart: always
+    depends_on:
+      - nginx
+    container_name: website-container
+    build: ./requirements/bonus/website/.
+    networks:
+      - my-network
+    volumes:
+      - wp-data:/var/www/html/
 networks:
   my-network:
 volumes:

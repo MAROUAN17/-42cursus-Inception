@@ -1,12 +1,12 @@
 all: build
 
-build:
+ubuild:
 	cd srcs && docker-compose build --no-cache
 
-down:
-	cd srcs && docker-compose down --rmi all
+build:
+	cd srcs && docker-compose build
 
-up:
+run:
 	cd srcs && docker-compose up -d
 
 fclean:
@@ -14,5 +14,11 @@ fclean:
 
 restart:
 	cd srcs && docker-compose restart
+
+stop:
+	cd srcs && docker-compose stop
+
+start:
+	cd srcs && docker-compose start
 
 .PHONY: build down up
