@@ -80,14 +80,12 @@ services:
       - wp-data:/var/www/html
   website:
     restart: always
-    depends_on:
-      - nginx
     container_name: website-container
     build: ./requirements/bonus/website/.
     networks:
       - my-network
-    volumes:
-      - wp-data:/var/www/html/
+    ports:
+      - "8081:8081"
 networks:
   my-network:
 volumes:

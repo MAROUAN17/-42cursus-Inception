@@ -12,6 +12,9 @@ run:
 fclean:
 	cd srcs && docker-compose down --rmi all -v
 
+down:
+	cd srcs && docker-compose down
+
 restart:
 	cd srcs && docker-compose restart
 
