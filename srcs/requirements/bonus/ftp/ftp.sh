@@ -4,7 +4,7 @@ mkdir -p /var/run/vsftpd/empty;
 chown root:root /var/run/vsftpd/empty;
 chmod 755 /var/run/vsftpd/empty;
 
-useradd -m maglagal;
-echo "maglagal:maglagal123" | chpasswd
+useradd -m ${FTP_USER};
+echo "${FTP_USER}:${FTP_PASS}" | chpasswd
 
 vsftpd;

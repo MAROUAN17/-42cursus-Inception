@@ -13,7 +13,7 @@ fclean:
 	cd srcs && docker-compose down --rmi all -v
 
 down:
-	cd srcs && docker-compose down
+	cd srcs && docker-compose down --rmi all
 
 restart:
 	cd srcs && docker-compose restart
@@ -24,4 +24,4 @@ stop:
 start:
 	cd srcs && docker-compose start
 
-.PHONY: build down up
+.PHONY: build down run

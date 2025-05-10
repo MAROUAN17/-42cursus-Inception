@@ -6,8 +6,11 @@ RUN apt-get update && \
     apt-get clean && \
     mkdir -p /var/www/html
 
-COPY main.html /var/www/html/index.html
+COPY index.html /var/www/html/index.html
+COPY description.html /var/www/html/description.html
+COPY about.html /var/www/html/about.html
 COPY style.css /var/www/html/style.css
+COPY main.js /var/www/html/main.js
 COPY nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 8081

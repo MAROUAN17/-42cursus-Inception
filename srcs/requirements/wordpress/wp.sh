@@ -1,22 +1,26 @@
 #!/bin/bash
 
+echo ${MARIADB_DB_HOST}
+echo ${MARIADB_DB_NAME}
+echo ${MARIADB_DB_USER}
+echo ${MARIADB_DB_PASSWORD}
+
 cd /var/www/html;
 
 wp core download --allow-root;
 
-wp config create --skip-check \
-                 --dbhost=mariadb:3306 \
-                 --dbname=wp_db \
-                 --dbuser=maglagal \
-                 --dbpass=maglagal123 \
+wp config create --dbhost=${MARIADB_DB_HOST} \
+                 --dbname=${MARIADB_DB_NAME} \
+                 --dbuser=${MARIADB_DB_USER} \
+                 --dbpass=${MARIADB_DB_PASSWORD} \
                  --allow-root \
-                 --path="/var/www/html";
+                 --path='/var/www/html/';
 
 wp core install --url=localhost:8080 \
-                --title=inception \
-                --admin_user=maglagal \
-                --admin_password=maglagal123 \
-                --admin_email=clarion.agl@gmail.com \
+                --title=${WORDPRESS_WEBSITE_TITLE} \
+                --admin_user=${WORDPRESS_USER} \
+                --admin_password=${WORDPRESS_USER_PASSWORD} \
+                --admin_email=${WORDPRESS_USER_EMAIL} \
                 --allow-root;
 
 
@@ -25,5 +29,6 @@ wp config set WP_REDIS_HOST redis --allow-root --path='/var/www/html/'
 wp config set WP_REDIS_PORT 6379 --allow-root --path='/var/www/html/'
 wp config set WP_CACHE true --allow-root
 wp redis enable --allow-root --path='/var/www/html/'
+
 
 php-fpm -F;

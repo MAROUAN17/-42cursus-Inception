@@ -15,6 +15,11 @@ services:
       - db-data:/var/lib/mysql
     networks:
       - my-network
+    environment:
+      MARIADB_DB_HOST: ${MARIADB_DB_HOST}
+      MARIADB_DB_NAME: ${MARIADB_DB_NAME}
+      MARIADB_DB_USER: ${MARIADB_DB_USER}
+      MARIADB_DB_PASSWORD: ${MARIADB_DB_PASSWORD}
   wordpress:
     restart: always
     depends_on:
@@ -29,10 +34,14 @@ services:
     volumes:
       - wp-data:/var/www/html/
     environment:
-      WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST}
-      WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
-      WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
-      WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
+      WORDPRESS_USER: ${WORDPRESS_USER}
+      WORDPRESS_USER_EMAIL: ${WORDPRESS_USER_EMAIL}
+      WORDPRESS_USER_PASSWORD: ${WORDPRESS_USER_PASSWORD}
+      WORDPRESS_WEBSITE_TITLE: ${WORDPRESS_WEBSITE_TITLE}
+      MARIADB_DB_HOST: ${MARIADB_DB_HOST}
+      MARIADB_DB_NAME: ${MARIADB_DB_NAME}
+      MARIADB_DB_USER: ${MARIADB_DB_USER}
+      MARIADB_DB_PASSWORD: ${MARIADB_DB_PASSWORD}
   nginx:
     restart: always
     depends_on:
@@ -68,6 +77,9 @@ services:
       - "2100:21"
     volumes:
       - wp-data:/var/www/html
+    environment:
+      FTP_USER: ${FTP_USER}
+      FTP_PASS: ${FTP_PASS}
   adminer:
     restart: always
     depends_on:
@@ -86,8 +98,20 @@ services:
       - my-network
     ports:
       - "8081:8081"
+  portainer:
+    restart: always
+    container_name: portainer-container
+    build: ./requirements/bonus/portainer/.
+    networks:
+      - my-network
+    ports:
+      - "9443:9443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer-data:/data
 networks:
   my-network:
 volumes:
   db-data:
   wp-data:
+  portainer-data:

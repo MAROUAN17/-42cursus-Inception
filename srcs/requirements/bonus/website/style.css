@@ -11,6 +11,7 @@ body {
 }
 
 #nav {
+    align-items: center;
     display: flex;
     justify-content: space-between;
     padding-left: 8px;
@@ -97,6 +98,31 @@ a {
     font-weight: lighter;
     font-size: small;
     padding-left: 6px;
+}
+
+hr {
+    visibility: hidden;
+    margin: 3px;
+}
+
+#wrapper {
+    padding: 30px;
+}
+
+#manda, #bonus {
+    border-style: solid;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.descriptions {
+    font-weight: lighter;
+}
+
+#about {
+    margin-top: 80px;
+    padding: 40px;
+    font-weight: lighter;
 }
 
 @keyframes scroll-left {
