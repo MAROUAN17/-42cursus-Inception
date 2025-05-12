@@ -19,7 +19,9 @@ services:
       MARIADB_DB_HOST: ${MARIADB_DB_HOST}
       MARIADB_DB_NAME: ${MARIADB_DB_NAME}
       MARIADB_DB_USER: ${MARIADB_DB_USER}
-      MARIADB_DB_PASSWORD: ${MARIADB_DB_PASSWORD}
+      MARIADB_DB_PASSWORD: /run/secrets/db_password
+    secrets:
+      - db_password
   wordpress:
     restart: always
     depends_on:
@@ -36,12 +38,15 @@ services:
     environment:
       WORDPRESS_USER: ${WORDPRESS_USER}
       WORDPRESS_USER_EMAIL: ${WORDPRESS_USER_EMAIL}
-      WORDPRESS_USER_PASSWORD: ${WORDPRESS_USER_PASSWORD}
+      WORDPRESS_USER_PASSWORD: /run/secrets/db_root_password
       WORDPRESS_WEBSITE_TITLE: ${WORDPRESS_WEBSITE_TITLE}
       MARIADB_DB_HOST: ${MARIADB_DB_HOST}
       MARIADB_DB_NAME: ${MARIADB_DB_NAME}
       MARIADB_DB_USER: ${MARIADB_DB_USER}
-      MARIADB_DB_PASSWORD: ${MARIADB_DB_PASSWORD}
+      MARIADB_DB_PASSWORD: /run/secrets/db_password
+    secrets:
+      - db_password
+      - db_root_password
   nginx:
     restart: always
     depends_on:
@@ -79,7 +84,9 @@ services:
       - wp-data:/var/www/html
     environment:
       FTP_USER: ${FTP_USER}
-      FTP_PASS: ${FTP_PASS}
+      FTP_PASS: /run/secrets/ftp_pass
+    secrets:
+      - ftp_pass
   adminer:
     restart: always
     depends_on:
@@ -115,3 +122,12 @@ volumes:
   db-data:
   wp-data:
   portainer-data:
+secrets:
+  db_password:
+    file: ../secrets/db_password.txt
+  db_root_password:
+    file: ../secrets/db_root_password.txt
+  credentials:
+    file: ../secrets/credentials.txt
+  ftp_pass:
+    file: ../secrets/ftp_password.txt

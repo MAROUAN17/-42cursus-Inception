@@ -12,14 +12,14 @@ wp core download --allow-root;
 wp config create --dbhost=${MARIADB_DB_HOST} \
                  --dbname=${MARIADB_DB_NAME} \
                  --dbuser=${MARIADB_DB_USER} \
-                 --dbpass=${MARIADB_DB_PASSWORD} \
+                 --dbpass="$(cat "${MARIADB_DB_PASSWORD}")" \
                  --allow-root \
                  --path='/var/www/html/';
 
 wp core install --url=localhost:8080 \
                 --title=${WORDPRESS_WEBSITE_TITLE} \
                 --admin_user=${WORDPRESS_USER} \
-                --admin_password=${WORDPRESS_USER_PASSWORD} \
+                --admin_password="$(cat "${WORDPRESS_USER_PASSWORD}")" \
                 --admin_email=${WORDPRESS_USER_EMAIL} \
                 --allow-root;
 
