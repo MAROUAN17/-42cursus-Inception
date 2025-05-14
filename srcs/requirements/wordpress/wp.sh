@@ -1,9 +1,5 @@
 #!/bin/bash
 
-echo ${MARIADB_DB_HOST}
-echo ${MARIADB_DB_NAME}
-echo ${MARIADB_DB_USER}
-echo ${MARIADB_DB_PASSWORD}
 
 cd /var/www/html;
 
@@ -16,7 +12,7 @@ wp config create --dbhost=${MARIADB_DB_HOST} \
                  --allow-root \
                  --path='/var/www/html/';
 
-wp core install --url=localhost:8080 \
+wp core install --url=https://localhost \
                 --title=${WORDPRESS_WEBSITE_TITLE} \
                 --admin_user=${WORDPRESS_USER} \
                 --admin_password="$(cat "${WORDPRESS_USER_PASSWORD}")" \
@@ -29,6 +25,9 @@ wp config set WP_REDIS_HOST redis --allow-root --path='/var/www/html/'
 wp config set WP_REDIS_PORT 6379 --allow-root --path='/var/www/html/'
 wp config set WP_CACHE true --allow-root
 wp redis enable --allow-root --path='/var/www/html/'
+
+wp config set WP_DEBUG true --raw --type=constant --allow-root
+wp config set WP_DEBUG_LOG true --raw --type=constant --allow-root
 
 
 php-fpm -F;

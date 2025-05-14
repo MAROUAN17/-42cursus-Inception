@@ -1,6 +1,5 @@
 FROM debian:bullseye
 
-# COPY wp-config.php /var/www/html/wp-config.php
 COPY wp.sh /usr/local/bin/wp.sh
 
 RUN apt-get update && \
@@ -20,7 +19,8 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get clean
 
-RUN sed -i 's|^listen = .*|listen = 9000|' /etc/php/7.4/fpm/pool.d/www.conf
+
+RUN sed -i 's|^listen = .*|listen = 0.0.0.0:9000|' /etc/php/7.4/fpm/pool.d/www.conf
 
 EXPOSE 9000
 
