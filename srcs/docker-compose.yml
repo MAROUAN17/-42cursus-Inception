@@ -83,6 +83,7 @@ services:
                 - my-network
         ports:
                 - "2100:21"
+                - "10090-10100:10090-10100"
         volumes:
                 - wp-data:/var/www/html
         environment:
