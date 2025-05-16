@@ -25,7 +25,6 @@ wp config set WP_REDIS_HOST redis --allow-root --path='/var/www/html/'
 wp config set WP_REDIS_PORT 6379 --allow-root --path='/var/www/html/'
 wp config set WP_CACHE true --allow-root
 wp redis enable --allow-root --path='/var/www/html/'
-
 wp config set WP_DEBUG true --raw --type=constant --allow-root
 wp config set WP_DEBUG_LOG true --raw --type=constant --allow-root
 
