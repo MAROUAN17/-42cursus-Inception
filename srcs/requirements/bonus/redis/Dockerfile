@@ -5,7 +5,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get clean
 
-COPY ./redis.conf /etc/redis/redis.conf
+COPY ./conf/redis.conf /etc/redis/redis.conf
 
 EXPOSE 6379
 

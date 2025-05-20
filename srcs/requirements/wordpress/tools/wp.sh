@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 cd /var/www/html;
 
 wp core download --allow-root;
@@ -12,7 +11,11 @@ wp config create --dbhost=${MARIADB_DB_HOST} \
                  --allow-root \
                  --path='/var/www/html/';
 
-wp core install --url=https://localhost \
+while ! wp db check --allow-root --path="/var/www/html"; do
+	sleep 1;
+done
+
+wp core install --url=https://maglagal.42.fr \
                 --title=${WORDPRESS_WEBSITE_TITLE} \
                 --admin_user=${WORDPRESS_USER} \
                 --admin_password="$(cat "${WORDPRESS_USER_PASSWORD}")" \

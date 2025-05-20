@@ -10,7 +10,7 @@ run:
 	cd srcs && docker compose up -d
 
 fclean:
-	cd srcs && docker compose down --rmi all -v
+	sudo rm -rf ~/data/wp-data/* ~/data/db-data/* ~/data/portainer-data/* && cd srcs && docker compose down --rmi all -v 
 
 down:
 	cd srcs && docker compose down --rmi all
@@ -23,5 +23,11 @@ stop:
 
 start:
 	cd srcs && docker compose start
+
+re:
+	make fclean && make build && make run
+
+cache:
+	docker system prune
 
 .PHONY: build down run

@@ -5,13 +5,13 @@ RUN apt-get update && \
     nginx \
     openssl \
     curl \
+    netcat \
     ca-certificates && \
     rm -rf /var/lib/apt/lists/*
 
 
-COPY ssl.sh /usr/local/bin/ssl.sh
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY default /etc/nginx/sites-available/default
+COPY ./tools/ssl.sh /usr/local/bin/ssl.sh
+COPY ./conf/nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 443
 

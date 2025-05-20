@@ -1,5 +1,9 @@
 #!/bin/bash
 
+while ! nc -z wp 9000; do
+	sleep 1;
+done
+
 touch /etc/ssl/openssl.cnf;
 
 cat >> /etc/ssl/openssl.cnf <<EOF

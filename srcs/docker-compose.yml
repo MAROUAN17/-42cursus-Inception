@@ -1,7 +1,8 @@
 services:
   mariadb:
         restart: always
-        container_name: mariadb-container
+        image: mariadb
+        container_name: mariadb
         build: ./requirements/mariadb/.
         ports:
                 - "3306:3306"
@@ -19,18 +20,20 @@ services:
                 - MARIADB_DB_HOST=${MARIADB_DB_HOST}
                 - MARIADB_DB_NAME=${MARIADB_DB_NAME}
                 - MARIADB_DB_USER=${MARIADB_DB_USER}
-                - MARIADB_DB_PASSWORD=/run/secrets/db_password
+                - MARIADB_DB_ROOT_PASSWORD=/run/secrets/db_root_password
                 - MARIADB_S_USER=${MARIADB_S_USER}
                 - MARIADB_S_PASS=/run/secrets/mariadb_s_pass
+                - WORDPRESS_USER_PASSWORD=/run/secrets/db_password
         secrets:
+                - db_root_password
                 - db_password
                 - mariadb_s_pass
   wordpress:
         restart: always
         depends_on:
-                mariadb:
-                        condition: service_healthy
-        container_name: wp-container
+                - mariadb
+        image: wordpress
+        container_name: wp
         build: ./requirements/wordpress/.
         networks:
                 - my-network
@@ -41,7 +44,7 @@ services:
         environment:
                 - WORDPRESS_USER=${WORDPRESS_USER}
                 - WORDPRESS_USER_EMAIL=${WORDPRESS_USER_EMAIL}
-                - WORDPRESS_USER_PASSWORD=/run/secrets/db_root_password
+                - WORDPRESS_USER_PASSWORD=/run/secrets/db_password
                 - WORDPRESS_WEBSITE_TITLE=${WORDPRESS_WEBSITE_TITLE}
                 - MARIADB_DB_HOST=${MARIADB_DB_HOST}
                 - MARIADB_DB_NAME=${MARIADB_DB_NAME}
@@ -55,7 +58,8 @@ services:
         depends_on:
                 - wordpress
                 - adminer
-        container_name: nginx-container
+        image: nginx
+        container_name: nginx
         build: ./requirements/nginx/.
         networks:
                 - my-network
@@ -66,8 +70,9 @@ services:
   redis:
         restart: always
         depends_on:
-        - wordpress
-        container_name: redis-container
+                - wordpress
+        image: redis
+        container_name: redis
         build: ./requirements/bonus/redis/.
         networks:
         - my-network
@@ -77,12 +82,13 @@ services:
         restart: always
         depends_on:
                 - wordpress
-        container_name: ftp-container
+        image: ftp
+        container_name: ftp
         build: ./requirements/bonus/ftp/.
         networks:
                 - my-network
         ports:
-                - "2100:21"
+                - "2121:21"
                 - "10090-10100:10090-10100"
         volumes:
                 - wp-data:/var/www/html
@@ -95,7 +101,8 @@ services:
         restart: always
         depends_on:
                 - wordpress
-        container_name: adminer-container
+        image: adminer
+        container_name: adminer
         build: ./requirements/bonus/adminer/.
         networks:
                 - my-network
@@ -103,7 +110,8 @@ services:
                 - wp-data:/var/www/html
   website:
         restart: always
-        container_name: website-container
+        image: website
+        container_name: website
         build: ./requirements/bonus/website/.
         networks:
                 - my-network
@@ -111,7 +119,8 @@ services:
                 - "8081:8081"
   portainer:
         restart: always
-        container_name: portainer-container
+        image: portainer
+        container_name: portainer
         build: ./requirements/bonus/portainer/.
         networks:
                 - my-network
