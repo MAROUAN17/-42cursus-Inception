@@ -1,16 +1,12 @@
 #!/bin/bash
 
+mkdir -p /run/mysqld
+chown mysql:mysql /run/mysqld
 
-#mysqld_safe &
 
-mkdir -p /run/mysql
-chown mysql:mysql /run/mysql
+mysqld_safe &
 
-mysql_install_db --user=mysql
-
-mysqld_safe & 
-
-sleep 5;
+sleep 5
 
 mysql -u root <<-EOSQL
     ALTER USER 'root'@'localhost' IDENTIFIED BY '$(cat ${MARIADB_DB_ROOT_PASSWORD})';
@@ -20,7 +16,6 @@ mysql -u root <<-EOSQL
     FLUSH PRIVILEGES;
 EOSQL
 
-mysqladmin shutdown;
-
+mysqladmin -u root -p"$(cat ${MARIADB_DB_ROOT_PASSWORD})" shutdown;
 
 exec mysqld;
